@@ -1,0 +1,16 @@
+idea
+venv
+/db-data
+.vscode
+*.pyc
+__pycache__
+settings.py
+/static
+/projects/obrTable
+.editorconfig
+.prettierrc.json
+*.log
+/media
+/roles
+.env
+*.log
