@@ -3,8 +3,11 @@ from services.transliterate import transliterate
 
 
 def get(url: str) -> dict:
-    response = requests.get(url)
-    return response.json()
+    try:
+        response = requests.get(url)
+        return response.json()
+    except Exception as e:
+        raise Exception(f"I can't get data via api: {e}")
 
 
 def get_reports() -> list:
@@ -36,7 +39,7 @@ def get_geo() -> list:
     """
     Получить нужные поля по geo
     """
-    url = "http://10.18.100.33/form/export/data-geo.json"
+    url = "http://10.18.100.33/form/export/data-geo22.json"
     data = get(url)
     result = []
     for i in data:

@@ -1,6 +1,6 @@
 
 from deepdiff import DeepDiff
-# from datetime import datetime
+from datetime import datetime
 # from multiprocessing import current_process
 import multiprocessing
 import argparse
@@ -36,17 +36,23 @@ class Main():
         """
         Запуск
         """
+        processes = []
         try:
-            logging.info("script start")
+            logging.info(f"{datetime.now()} Start script")
             result_queue = multiprocessing.Queue()
             for i in self.get_task():
                 p = multiprocessing.Process(target=self.manager, args=(i, result_queue))
                 p.start()
-            logging.info("script completed successfully")
+                processes.append(p)
         except Exception as e:
             if not debug:
                 send_email(e)
-            logging.error(e)
+            logging.error(f" {datetime.now()} {e}")
+
+        for p in processes:
+            p.join()
+
+        logging.info(f"{datetime.now()} Shutdown script")
 
     def get_task(self) -> list:
         """Разделяет список задач на количество процессов
@@ -105,7 +111,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     geo = args.geo
     process_count = args.p
-
     if process_count is not None:
         m = Main(process_count, geo)
         m.start()
