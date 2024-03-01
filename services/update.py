@@ -4,7 +4,7 @@ import logging
 
 file_log = logging.FileHandler("logfile.log")
 console_out = logging.StreamHandler()
-logging.basicConfig(handlers=(file_log, console_out), level=logging.DEBUG)
+logging.basicConfig(handlers=(file_log, console_out), level=logging.INFO)
 
 
 class Update:

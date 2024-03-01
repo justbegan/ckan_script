@@ -10,7 +10,12 @@ from services.get_query_from_db_by_id import get_report_by_id, get_geo_by_id
 from services.update import Update
 from services.get_data_from_api import get_reports, get_geo
 from services.mail_sender import send_email
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+
+debug = os.environ.get('debug')
 
 file_log = logging.FileHandler("logfile.log")
 console_out = logging.StreamHandler()
@@ -39,7 +44,8 @@ class Main():
                 p.start()
             logging.info("script completed successfully")
         except Exception as e:
-            send_email(e)
+            if not debug:
+                send_email(e)
             logging.error(e)
 
     def get_task(self) -> list:
