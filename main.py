@@ -97,9 +97,8 @@ class Main():
                 x = get_report_by_id(i['id'])
             else:
                 x = get_geo_by_id(i['id'])
-            diff = DeepDiff(i, x)
+            diff = DeepDiff(x, i)
             if diff:
-                print(diff)
                 u = Update(i, self.geo)
                 u.start()
 

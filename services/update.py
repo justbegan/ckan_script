@@ -31,8 +31,14 @@ class Update:
         db.close()
 
     def update_package(self) -> None:
-        query = Package.update(title=self.title, author=self.author).where(Package.name == self.id)
+        query = Package.update(
+            title=self.title,
+            author=self.author,
+            notes=self.data.get('description'),
+            url=self.data.get('link_view')
+        ).where(Package.name == self.id)
         query.execute()
+        print(f"{self.data} успешно обновлена")
 
     def update_package_extra(self) -> None:
         query = Package.update(title=self.title, author=self.author).where(Package.name == self.id)
@@ -64,6 +70,11 @@ class Update:
                 {'key': 'dim_data_create_date', 'value': data['date_create']},
                 {'key': 'dim_land_state_date', 'value': data['date_condition']},
                 {'key': 'dim_carthographic_projection', 'value': data['projection']},
-                {'key': 'dim_coordinate_system', 'value': data['coord_system']}
+                {'key': 'dim_coordinate_system', 'value': data['coord_system']},
+                {'key': 'dim_data_type', 'value': data['type']},
+                {'key': 'dim_gis', 'value': data['gis']},
+                {'key': 'dim_accuracy', 'value': data['scale']},
+                {'key': 'dim_land_state_status', 'value': data['status']},
+                {'key': 'dim_refresh_period', 'value': data['period']}
             ]
         return pkg_extras_list

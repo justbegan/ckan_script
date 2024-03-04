@@ -39,7 +39,7 @@ def get_geo() -> list:
     """
     Получить нужные поля по geo
     """
-    url = "http://10.18.100.33/form/export/data-geo22.json"
+    url = "http://10.18.100.33/form/export/data-geo.json"
     data = get(url)
     result = []
     for i in data:
@@ -53,6 +53,13 @@ def get_geo() -> list:
             "date_condition": i.get("date_condition"),
             "projection": i.get("projection"),
             "coord_system": i.get("coord_system"),
+            "type": i.get("type"),
+            "gis": i.get("gis"),
+            "scale": i.get("scale"),
+            "status": i.get("status"),
+            "period": i.get("period"),
+            "description": i.get("description"),
+            "link_view": i.get("link_view")
         }
         result.append(obj)
     return result

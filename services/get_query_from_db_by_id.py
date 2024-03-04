@@ -54,12 +54,23 @@ def get_geo_by_id(id: str):
             pkg.name AS id,
             pkg.title AS title,
             pkg.author AS data_owner,
+
+            pkg.notes AS description,
+            pkg.url AS link_view,
+
             pe_dim_data_format.value AS format,
             pe_dim_representation_method.value AS visual,
             pe_dim_data_create_date.value AS date_create,
             pe_dim_land_state_date.value AS date_condition,
             pe_dim_carthographic_projection.value AS projection,
-            pe_dim_coordinate_system.value AS coord_system
+            pe_dim_coordinate_system.value AS coord_system,
+
+            pe_dim_data_type.value AS type,
+            pe_dim_gis.value AS gis,
+            pe_dim_accuracy.value AS scale,
+            pe_dim_land_state_status.value AS status,
+            pe_dim_refresh_period.value AS period
+
         FROM
             public."package" AS pkg
         LEFT JOIN
@@ -85,6 +96,23 @@ def get_geo_by_id(id: str):
         LEFT JOIN
             public."package_extra" AS pe_dim_coordinate_system ON pkg.id = pe_dim_coordinate_system.package_id AND
             pe_dim_coordinate_system.key = 'dim_coordinate_system'
+
+        LEFT JOIN
+            public."package_extra" AS pe_dim_data_type ON pkg.id = pe_dim_data_type.package_id AND
+            pe_dim_data_type.key = 'dim_data_type'
+        LEFT JOIN
+            public."package_extra" AS pe_dim_gis ON pkg.id = pe_dim_gis.package_id AND
+            pe_dim_gis.key = 'dim_gis'
+        LEFT JOIN
+            public."package_extra" AS pe_dim_accuracy ON pkg.id = pe_dim_accuracy.package_id AND
+            pe_dim_accuracy.key = 'dim_accuracy'
+        LEFT JOIN
+            public."package_extra" AS pe_dim_land_state_status ON pkg.id = pe_dim_land_state_status.package_id AND
+            pe_dim_land_state_status.key = 'dim_land_state_status'
+        LEFT JOIN
+            public."package_extra" AS pe_dim_refresh_period ON pkg.id = pe_dim_refresh_period.package_id AND
+            pe_dim_refresh_period.key = 'dim_refresh_period'
+
         WHERE pkg.name = %s
     """
     return get_query(id, query)
